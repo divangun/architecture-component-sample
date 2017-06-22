@@ -3,15 +3,21 @@ package test.vcnc.co.kr.architecture_test.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.Bitmap;
 
 import test.vcnc.co.kr.architecture_test.model.Image;
 
-@Entity
+@Entity(indices = {@Index(value = "id", unique = true)}, foreignKeys = {
+        @ForeignKey(entity = Book.class, parentColumns = "id", childColumns = "bookId", onDelete = ForeignKey.CASCADE)
+})
 public class User {
 
-    @PrimaryKey
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
 
     String name;
 
@@ -24,12 +30,27 @@ public class User {
     @Embedded(prefix = "image_")
     private Image image;
 
-    public String getId() {
+    private int age;
+
+    public Long bookId;
+
+    @Ignore
+    Bitmap profile;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Bitmap getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Bitmap profile) {
+        this.profile = profile;
     }
 
     public String getName() {
@@ -63,4 +84,14 @@ public class User {
     public void setImage(Image image) {
         this.image = image;
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+
 }

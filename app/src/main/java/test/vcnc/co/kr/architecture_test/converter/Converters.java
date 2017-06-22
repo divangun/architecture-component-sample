@@ -2,6 +2,8 @@ package test.vcnc.co.kr.architecture_test.converter;
 
 import android.arch.persistence.room.TypeConverter;
 
+import java.util.Date;
+
 import test.vcnc.co.kr.architecture_test.model.DataStatus;
 
 public class Converters {
@@ -22,5 +24,15 @@ public class Converters {
             return date.toString();
         }
         return null;
+    }
+
+    @TypeConverter
+    public static Date toDate(Long timestamp) {
+        return timestamp == null ? null : new Date(timestamp);
+    }
+
+    @TypeConverter
+    public static Long toTimestamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 }

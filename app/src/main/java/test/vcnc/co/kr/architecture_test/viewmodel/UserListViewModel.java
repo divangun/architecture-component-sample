@@ -4,23 +4,25 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.os.AsyncTask;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Scheduler;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import test.vcnc.co.kr.architecture_test.core.TestApplication;
 import test.vcnc.co.kr.architecture_test.db.AppDatabase;
 import test.vcnc.co.kr.architecture_test.entity.User;
 
-public class UserViewModel extends AndroidViewModel{
+public class UserListViewModel extends AndroidViewModel{
 
     private MutableLiveData<List<User>> users;
     private AppDatabase database;
 
-    private final String userId;
-
-    public UserViewModel(Application application, String userId) {
+    public UserListViewModel(Application application) {
         super(application);
-        this.userId = userId;
         this.database = TestApplication.getTestApplication().getDatabase();
     }
 
@@ -29,6 +31,6 @@ public class UserViewModel extends AndroidViewModel{
     }
 
     public void insertUser(User user){
-        database.userDao().insertAll(user);
+        Flowable.just(user).observeOn(Schedulers.io()).subscribe(user1 -> database.userDao().insertAll(user1));
     }
 }

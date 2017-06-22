@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def keyPropertiesFile = rootProject.file("key.properties")
+def keyProperties = new Properties()
+keyProperties.load(new FileInputStream(keyPropertiesFile))
 
 android {
     compileSdkVersion 25
@@ -10,6 +15,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        buildConfigField "String", "GITHUB_ACCESS_TOKEN", "\"${keyProperties["github_access_token"]}\""
     }
     buildTypes {
         release {
@@ -17,6 +24,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "base"
+    productFlavors {
+        pre21 {
+            minSdkVersion 16
+            dimension "base"
+        }
+        post21 {
+            minSdkVersion 21
+            dimension "base"
+        }
+    }
+    packagingOptions {
+        exclude "META-INF/LICENSE"
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+retrolambda {
+    defaultMethods false
+    incremental true
 }
 
 dependencies {
@@ -33,7 +63,16 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion;
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;
+    compile "android.arch.persistence.room:rxjava2:" + rootProject.archRxVersion;
 
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    compile "com.android.support:multidex:1.0.1"
+    compile "com.squareup.retrofit2:retrofit:2.3.0"
+    compile "com.squareup.retrofit2:converter-jackson:2.3.0"
+    compile "com.fasterxml.jackson.core:jackson-core:2.8.7"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.7"
+    compile "com.squareup.okhttp3:okhttp:3.8.0"
+    compile "io.reactivex.rxjava2:rxjava:2.1.1"
 }
