@@ -4,29 +4,29 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-public class LifeCycleTestListener implements LifecycleObserver {
+public class TestListenerChange implements LifecycleObserver {
 
     private TestCallback testCallback;
     private Lifecycle lifecycle;
 
-    public LifeCycleTestListener(Lifecycle lifecycle, TestCallback callback) {
+    public TestListenerChange(Lifecycle lifecycle, TestCallback callback) {
         lifecycle.addObserver(this);
         this.lifecycle = lifecycle;
         this.testCallback = callback;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    void start() {
-
-        lifecycle.getCurrentState().isAtLeast(Lifecycle.State.STARTED);
+    public void start() {
+        // start Event
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    void pause() {
+    public void pause() {
+        // pause Event
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    void clean() {
+    public void clean() {
         lifecycle.removeObserver(this);
     }
 

@@ -18,8 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.InsertActivity" />
-        <activity android:name=".activity.LifeCycleTestActivity" />
+        <activity android:name=".activity.viewmodel.InsertActivity" />
+        <activity android:name=".activity.lifecycleowner.MyActivityChange" />
     </application>
 
 </manifest>

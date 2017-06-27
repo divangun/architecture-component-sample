@@ -1,4 +1,4 @@
-package test.vcnc.co.kr.architecture_test.activity;
+package test.vcnc.co.kr.architecture_test.activity.viewmodel;
 
 import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.Observer;

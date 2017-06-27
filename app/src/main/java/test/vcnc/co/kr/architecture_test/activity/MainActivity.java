@@ -8,6 +8,8 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import test.vcnc.co.kr.architecture_test.R;
+import test.vcnc.co.kr.architecture_test.activity.lifecycleowner.MyActivityChange;
+import test.vcnc.co.kr.architecture_test.activity.viewmodel.InsertActivity;
 
 public class MainActivity extends LifecycleActivity {
 
@@ -26,7 +28,7 @@ public class MainActivity extends LifecycleActivity {
         });
 
         lifeCycleButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, LifeCycleTestActivity.class));
+            startActivity(new Intent(this, MyActivityChange.class));
         });
 
     }
